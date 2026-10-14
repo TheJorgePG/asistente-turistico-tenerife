@@ -1,0 +1,65 @@
+2026-10-14 17:04:43,373 - INFO - Intento de llamada a get_weather con fecha: 2026-06-15
+2026-10-14 17:04:43,374 - INFO - get_weather ejecutada con éxito para la fecha 2026-06-15
+2026-10-14 17:04:50,479 - INFO - Intento de llamada a get_weather con fecha: 2026-06-15
+2026-10-14 17:04:50,479 - INFO - get_weather ejecutada con éxito para la fecha 2026-06-15
+2026-10-14 17:05:55,800 - INFO - Intento de llamada a get_weather con fecha: 2026-06-15
+2026-10-14 17:05:55,801 - INFO - get_weather ejecutada con éxito para la fecha 2026-06-15
+2026-10-14 17:05:58,077 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/embedding-001:batchEmbedContents "HTTP/1.1 404 Not Found"
+2026-10-14 17:07:08,627 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/embedding-001:batchEmbedContents "HTTP/1.1 404 Not Found"
+2026-10-14 17:17:30,180 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:batchEmbedContents "HTTP/1.1 404 Not Found"
+2026-10-14 17:18:08,926 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:batchEmbedContents "HTTP/1.1 404 Not Found"
+2026-10-14 17:18:38,563 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/embedding-001:batchEmbedContents "HTTP/1.1 404 Not Found"
+2026-10-14 17:19:40,217 - INFO - Intento de llamada a get_weather con fecha: 2026-06-15
+2026-10-14 17:19:40,218 - INFO - get_weather ejecutada con éxito para la fecha 2026-06-15
+2026-10-14 17:33:04,494 - INFO - Intento de llamada a get_weather con fecha: 2026-06-15
+2026-10-14 17:33:04,495 - INFO - get_weather ejecutada con éxito para la fecha 2026-06-15
+2026-10-14 17:35:01,183 - INFO - Intento de llamada a get_weather con fecha: 2026-06-15
+2026-10-14 17:35:01,185 - INFO - get_weather ejecutada con éxito para la fecha 2026-06-15
+2026-10-14 17:36:34,902 - INFO - Intento de llamada a get_weather con fecha: 2026-06-15
+2026-10-14 17:36:34,903 - INFO - get_weather ejecutada con éxito para la fecha 2026-06-15
+2026-10-14 17:38:12,554 - INFO - Intento de llamada a get_weather con fecha: 2026-06-15
+2026-10-14 17:38:12,555 - INFO - get_weather ejecutada con éxito para la fecha 2026-06-15
+2026-10-14 17:44:10,716 - INFO - Intento de llamada a get_weather con fecha: 2026-06-15
+2026-10-14 17:44:10,717 - INFO - get_weather ejecutada con éxito para la fecha 2026-06-15
+2026-10-14 17:47:20,820 - INFO - AFC is enabled with max remote calls: 10.
+2026-10-14 17:47:21,168 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent "HTTP/1.1 404 Not Found"
+2026-10-14 17:49:00,578 - INFO - AFC is enabled with max remote calls: 10.
+2026-10-14 17:49:10,229 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-10-14 17:49:10,231 - INFO - Retrying google.genai._api_client.BaseApiClient._request_once in 1.78 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+2026-10-14 17:49:15,647 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-10-14 17:49:15,649 - INFO - Retrying google.genai._api_client.BaseApiClient._request_once in 2.79 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+2026-10-14 17:49:20,572 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-10-14 17:49:20,574 - INFO - Retrying google.genai._api_client.BaseApiClient._request_once in 4.22 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+2026-10-14 17:49:31,937 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-10-14 17:49:31,939 - INFO - Retrying google.genai._api_client.BaseApiClient._request_once in 8.73 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+2026-10-14 17:49:42,486 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-10-14 17:49:42,488 - INFO - Retrying google.genai._api_client.BaseApiClient._request_once in 16.5 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+2026-10-14 17:50:03,068 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-10-14 17:52:17,332 - INFO - AFC is enabled with max remote calls: 10.
+2026-10-14 17:52:17,649 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-10-14 17:53:02,133 - INFO - AFC is enabled with max remote calls: 10.
+2026-10-14 17:53:04,077 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-10-14 17:53:04,078 - INFO - Retrying google.genai._api_client.BaseApiClient._request_once in 1.28 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+2026-10-14 17:53:06,470 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-10-14 17:53:06,471 - INFO - Retrying google.genai._api_client.BaseApiClient._request_once in 2.38 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+2026-10-14 17:53:10,157 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-10-14 17:53:10,159 - INFO - Retrying google.genai._api_client.BaseApiClient._request_once in 4.05 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+2026-10-14 17:53:15,308 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-10-14 17:53:15,309 - INFO - Retrying google.genai._api_client.BaseApiClient._request_once in 8.82 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+2026-10-14 17:53:25,721 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-10-14 17:53:25,722 - INFO - Retrying google.genai._api_client.BaseApiClient._request_once in 17 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+2026-10-14 17:53:44,665 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-10-14 17:56:02,076 - INFO - AFC is enabled with max remote calls: 10.
+2026-10-14 17:56:03,732 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-10-14 17:56:03,734 - INFO - Retrying google.genai._api_client.BaseApiClient._request_once in 1.69 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+2026-10-14 17:56:07,107 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-10-14 17:56:07,109 - INFO - Retrying google.genai._api_client.BaseApiClient._request_once in 2.94 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+2026-10-14 17:56:13,825 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-10-14 17:56:13,826 - INFO - Retrying google.genai._api_client.BaseApiClient._request_once in 4.44 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+2026-10-14 17:56:20,623 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-10-14 17:56:20,625 - INFO - Retrying google.genai._api_client.BaseApiClient._request_once in 8.59 seconds as it raised ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}.
+2026-10-14 17:57:23,707 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-10-14 17:58:17,290 - INFO - Intento de llamada a get_weather con fecha: 2026-06-15
+2026-10-14 17:58:17,295 - INFO - get_weather ejecutada con éxito para la fecha 2026-06-15
+2026-10-14 17:58:35,399 - INFO - AFC is enabled with max remote calls: 10.
+2026-10-14 17:58:46,849 - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent "HTTP/1.1 200 OK"

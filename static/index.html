@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tenerife: Chrono Quest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0b0b16;
+            color: #ffffff;
+            font-family: 'Press Start 2P', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        #game-container {
+            width: 800px;
+            height: 500px;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&w=800&q=80') center/cover;
+            border: 4px solid #fff;
+            box-shadow: 0 0 20px #00ffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        #npc-name {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #0000aa;
+            border: 2px solid #fff;
+            padding: 8px 12px;
+            font-size: 10px;
+            color: #ffff00;
+        }
+        #dialogue-box {
+            background: rgba(0, 0, 170, 0.9);
+            border: 4px solid #fff;
+            outline: 4px solid #000055;
+            padding: 20px;
+            min-height: 140px;
+            max-height: 140px;
+            overflow-y: auto;
+            font-size: 11px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        #input-container {
+            display: flex;
+            gap: 10px;
+        }
+        #user-input {
+            flex: 1;
+            background: #000;
+            border: 4px solid #fff;
+            color: #00ff00;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            padding: 12px;
+        }
+        #send-btn {
+            background: #ff5555;
+            border: 4px solid #fff;
+            color: #fff;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            padding: 0 20px;
+            cursor: pointer;
+        }
+        #send-btn:hover { background: #ff7777; }
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        <div id="npc-name">NPC: Sabio de Tenerife</div>
+        <div id="dialogue-box">¡Saludos, viajero! Bienvenido a la isla mística de Tenerife. Pregúntame sobre sus rutas, el clima o los tesoros ocultos del Teide...</div>
+        
+        <div id="input-container">
+            <input type="text" id="user-input" placeholder="Escribe tu comando..." autofocus>
+            <button id="send-btn" onclick="enviarMensaje()">HABLAR</button>
+        </div>
+    </div>
+
+    <script>
+        async function enviarMensaje() {
+            const input = document.getElementById('user-input');
+            const dialogue = document.getElementById('dialogue-box');
+            const texto = input.value.trim();
+            if (!texto) return;
+
+            dialogue.innerHTML += `<br><br>> ${texto}`;
+            input.value = '';
+            dialogue.scrollTop = dialogue.scrollHeight;
+
+            try {
+                const response = await fetch('/api/interact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: texto })
+                });
+                const data = await response.json();
+                dialogue.innerHTML += `<br><br><b>Sabio:</b> ${data.reply}`;
+                dialogue.scrollTop = dialogue.scrollHeight;
+            } catch (err) {
+                dialogue.innerHTML += `<br><br>⚠️ Error de conexión con el reino espiritual.`;
+            }
+        }
+
+        document.getElementById('user-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') enviarMensaje();
+        });
+    </script>
+</body>
+</html>

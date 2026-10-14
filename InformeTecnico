@@ -1,0 +1,55 @@
+Memoria Técnica y Justificación de Arquitectura
+
+Proyecto: Asistente Turístico Interactivo de Tenerife
+
+Autor: Jorge Pozo Galán
+
+1. Introducción y Propósito
+
+El objetivo de este proyecto consistía en desarrollar un sistema conversacional capaz de responder preguntas turísticas detalladas sobre la isla de Tenerife utilizando una guía en formato PDF (TENERIFE.pdf), combinándolo con herramientas dinámicas (como la consulta del clima) y presentando la información de una forma original: una interfaz web con estética de videojuego de rol clásico (JRPG).
+
+A lo largo del desarrollo, la arquitectura evolucionó para priorizar la estabilidad del entorno, la velocidad de respuesta y la sencillez en el despliegue local. A continuación se detallan las decisiones técnicas tomadas y la justificación de por qué se optó por cada solución.
+
+2. Decisiones Arquitectónicas y Justificación
+
+2.1 Carga del PDF: Inyección directa en memoria vs. Vector DB fija (ChromaDB)
+
+Decisión tomada: Extraer y consolidar el texto del PDF directamente en la memoria del servidor (pypdf) durante la inicialización de FastAPI e inyectar los fragmentos relevantes directamente en la llamada al LLM.
+
+Por qué no se usó una base de datos vectorial persistente: Inicialmente se planteó el flujo RAG tradicional con ChromaDB y embeddings (text-embedding-004). Sin embargo, en el entorno de ejecución local surgieron problemas recurrentes de resolución de rutas relativas con el proceso del servidor Uvicorn (WatchFiles), conflictos en el ciclo de vida del retriever y bloqueos ocasionales en la inicialización de claves de API. Como la guía turística tiene un tamaño acotado (~100-200 KB de texto plano), cargar el texto en memoria e inyectarlo dentro de la ventana de contexto de Gemini (que soporta más de 1M de tokens) garantiza una respuesta 100% fiable, sin fallos de lectura de disco y sin añadir latencia de búsqueda vectorial externa.
+
+2.2 Framework Backend: FastAPI frente a scripts de terminal o Flask
+
+Decisión tomada: Exponer la lógica del proyecto mediante endpoints asíncronos en FastAPI y Uvicorn.
+
+Por qué no otras alternativas:
+
+Frente a scripts CLI (main.py): La terminal no permitía plasmar el objetivo de la interfaz retro con estilo JRPG.
+
+Frente a Flask: FastAPI ofrece un rendimiento nativo superior gracias a ASGI, simplifica el manejo de modelos de datos con Pydantic y facilita el servicio de archivos estáticos (StaticFiles) en un solo punto de entrada.
+
+2.3 Selección del Modelo de Lenguaje: Gemini 2.0 / 1.5 Flash
+
+Decisión tomada: Configurar el sistema con gemini-2.0-flash (o gemini-1.5-flash como fallback).
+
+Por qué no modelos más pesados como gemini-1.5-pro: Durante las pruebas, las variantes pro sufrieron caídas por alta demanda en la API pública (errores 503 UNAVAILABLE) o errores de desaprobación en la API v1beta (error 404 NOT_FOUND). Los modelos Flash ofrecen tiempos de respuesta inmediatos (crucial para una interfaz interactiva donde el usuario espera ver el texto fluidamente) e imponen límites de cuota menos restrictivos en la capa gratuita.
+
+2.4 Interfaz de Usuario: Vanilla HTML/CSS/JS frente a Frameworks (React/Vue)
+
+Decisión tomada: Un único archivo static/index.html estático con estilos en cascada CSS puros y llamadas fetch asíncronas.
+
+Por qué no React/Vue: Dado que el núcleo del proyecto reside en la lógica Python y la integración del LLM, introducir una herramienta de compilación adicional (Node.js, Vite, Webpack) añadía una complejidad innecesaria al despliegue. Un frontal monolítico permite ejecutar toda la experiencia simplemente lanzando uvicorn server:app.
+
+3. Manejo de Errores y Lecciones Aprendidas
+
+Durante la construcción del sistema se resolvieron los siguientes puntos críticos:
+
+Gestión de variables de entorno: Se añadió la llamada explícita load_dotenv() antes del análisis de las importaciones que dependen de Google SDK, evitando fallos de validación en Pydantic por claves faltantes (API key required).
+
+Concurrencia de puertos en desarrollo: Ante bloqueos de puerto ([Errno 48] Address already in use) causados por cierres no limpios de procesos hijo en Uvicorn, se estableció una rutina de limpieza de sockets (kill -9) para recuperar el entorno rápidamente.
+
+Control de intenciones simple: La derivación de herramientas (como la consulta meteorológica) se resolvió priorizando patrones de palabras clave claras antes de pasar al motor conversacional, asegurando ejecuciones rápidas y predecibles.
+
+4. Conclusión
+
+El proyecto demuestra que es posible combinar técnicas avanzadas de IA conversacional y procesamiento de documentos con una capa de presentación visual atractiva. La arquitectura final es ligera, robusta frente a fallos de dependencias locales y fácil de mantener.
