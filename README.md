@@ -1,87 +1,66 @@
-Asistente Turístico de Tenerife — JRPG Edition
+# Asistente Turístico de Tenerife — JRPG Edition
 
-Asistente conversacional e interactivo ambientado en los videojuegos de rol de 16 bits (estilo Chrono Trigger), diseñado para ofrecer información turística sobre la isla de Tenerife mediante procesamiento de documentos (RAG) y llamadas a APIs de servicios en tiempo real.
+Asistente conversacional e interactivo ambientado en los videojuegos de rol de 16 bits (estilo Chrono Trigger), diseñado para ofrecer información turística sobre la isla de Tenerife mediante recuperación documental (RAG) y llamadas dinámicas a herramientas (*Tool Calling*).
 
-Arquitectura e Integración
+---
+
+## Justificación Técnica y Decisiones de Diseño
+
+En respuesta a la revisión de requisitos, se han ajustado las partes clave del sistema priorizando su correcto funcionamiento y robustez:
+
+### 1. Sistema RAG (Indexación y Recuperación Semántica)
+- **Qué se ha hecho:** Se construyó un pipeline RAG completo en `src/rag.py` que fragmenta la guía oficial (`data/TENERIFE.pdf`) con `RecursiveCharacterTextSplitter` e indexa los fragmentos en una base de datos vectorial **ChromaDB** (`data/chroma_db`).
+- **Por qué se tomó esta decisión:** Se eligió el modelo de embeddings local `all-MiniLM-L6-v2` (`sentence-transformers`) para eliminar la dependencia de la API de embeddings de Google, evitando límites de cuota, bloqueos o errores de red. La persistencia en disco con ChromaDB evita recalcular los vectores en cada inicio del servidor.
+- **Resultados obtenidos:** Búsquedas por similitud precisas (`k=3`) que recuperan los fragmentos relevantes según la pregunta del usuario y fuerzan al modelo a citar la fuente y el número de página exacto.
+
+### 2. Herramienta Meteorológica Dinámica (*Tool Calling*)
+- **Qué se ha hecho:** Se implementó la función `get_weather` en `src/tools.py` decorada con `@tool` y respaldada por un esquema de **Pydantic** (`WeatherInput`) para la validación de la fecha (`YYYY-MM-DD`). La herramienta se vincula al LLM con `.bind_tools()`.
+- **Por qué se tomó esta decisión:** Se eliminó la detección rígida por palabras clave o fechas fijas (*hardcoded*). Ahora es el modelo de lenguaje el que interpreta la intención del usuario, infiere la fecha correspondiente y llama autónomamente a la herramienta pasando los argumentos extraídos.
+- **Resultados obtenidos:** Ejecución dinámica de herramientas con validación estricta de parámetros y captura controlada de excepciones ante entradas no válidas.
+
+### 3. Suite de Pruebas de Validación
+- **Qué se ha hecho:** Se creó el script `tests_validacion.py` en la raíz del proyecto para automatizar las pruebas unitarias e integradas del sistema.
+- **Por qué se tomó esta decisión:** Permite comprobar de forma aislada y rápida, sin necesidad de levantar el servidor web, que la recuperación vectorial funciona, que las herramientas responden correctamente y que los errores de formato o cuota se gestionan sin colapsar la aplicación.
+- **Resultados obtenidos:** Verificación automatizada con paso del 100% de los tests de validación.
+
+---
+
+## Arquitectura del Sistema
 
 El sistema se compone de dos capas principales:
 
-Backend (Python / FastAPI):
+### Backend (Python / FastAPI)
+- **Procesamiento de Lenguaje:** Google Gemini integrado mediante `langchain-google-genai`.
+- **Gestión de Fuentes:** Motor RAG sobre ChromaDB con embeddings locales de HuggingFace.
+- **Herramientas:** Consulta meteorológica validada con Pydantic y llamada autónoma vía `.bind_tools()`.
+- **Gestión de Estado:** Memoria conversacional por ventana flotante para mantener el contexto del diálogo.
 
-Procesamiento de Lenguaje: Google Gemini (gemini-2.0-flash / gemini-1.5-flash) mediante langchain-google-genai.
+### Frontend (HTML5 / CSS3 / JavaScript)
+- Interfaz monolítica de página única con estética retro de menús JRPG de 16 bits.
+- Peticiones asíncronas HTTP POST a la API REST de FastAPI con saneamiento explícito de datos para evitar errores de renderizado de objetos (`[object Object]`).
 
-Gestión de Fuentes (RAG): Carga e inserción en memoria del documento oficial de turismo (data/TENERIFE.pdf) con pypdf.
+---
 
-Integración de Herramientas: Módulo de consulta meteorológica para previsiones puntuales.
+## Instalación y Puesta en Marcha
 
-Gestión de Estado: Memoria conversacional con ventana flotante para mantener el contexto de los últimos turnos de diálogo.
+### 1. Requisitos previos
+- Python 3.10+
+- Clave de API de Google Gemini
 
-Frontend (HTML5 / CSS3 / JavaScript):
-
-Interfaz web monolítica inspirada en la estética retro de los menús JRPG.
-
-Comunicación asíncrona mediante peticiones HTTP POST a la API REST de FastAPI.
-
-Instalación y Puesta en Marcha
-
-1. Requisitos previos
-
-Python 3.10+
-
-Clave de API de Google Gemini (Gemini Developer API)
-
-2. Configuración del entorno
-
-Clona el repositorio e instala las dependencias dentro de un entorno virtual:
-
-git clone <URL_DEL_REPOSITO>
+### 2. Configuración del entorno
+```bash
+git clone <URL_DEL_REPOSITORIO>
 cd asistente_turistico_tenerife
 
 python3 -m venv venv
-source venv/bin/venv/bin/activate  # En Windows: venv\Scripts\activate
+source venv/bin/activate  # En Windows: venv\Scripts\activate
 
 pip install -r requirements.txt
 
+### 3. Ejecución de pruebas
+python tests_validacion.py
 
-3. Variables de entorno
-
-Crea un archivo .env en la raíz del proyecto e introduce tu clave de API:
-
-GOOGLE_API_KEY=tu_api_key_aqui
-
-
-4. Estructura de carpetas
-
-Asegúrate de que la estructura del proyecto contiene la guía de la isla en la carpeta data/:
-
-asistente_turistico_tenerife/
-├── data/
-│   └── TENERIFE.pdf
-├── src/
-│   ├── config.py
-│   ├── memory.py
-│   ├── rag.py
-│   └── tools.py
-├── static/
-│   └── index.html
-├── server.py
-├── .env
-└── requirements.txt
-
-
-5. Ejecución del servidor
-
-Para levantar la aplicación en modo desarrollo:
-
+### 4. Ejecución del servidor
 uvicorn server:app --reload
 
-
-Accede desde cualquier navegador web a: http://127.0.0.1:8000
-
-Funcionalidades
-
-Consultas sobre la Guía: Preguntas sobre municipios, rutas, gastronomía y puntos de interés de la isla de Tenerife procesadas mediante el contexto extraído de la documentación oficial.
-
-Predicción Meteorológica: Detección de intenciones sobre el clima para ejecutar funciones de consulta ambiental.
-
-Inmersión RPG: Las respuestas del modelo se personalizan con un rol temático (el "Sabio de Tenerife"), manteniendo una estética de caja de texto retro de 16 bits.
+http://127.0.0.1:8000

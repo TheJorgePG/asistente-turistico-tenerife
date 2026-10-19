@@ -2,6 +2,7 @@ import json
 import logging
 from datetime import datetime
 from pydantic import BaseModel, Field
+from langchain_core.tools import tool
 
 logging.basicConfig(
     filename='logs/execution.log',
@@ -12,9 +13,11 @@ logging.basicConfig(
 class WeatherInput(BaseModel):
     fecha: str = Field(description="Fecha en formato YYYY-MM-DD para la predicción meteorológica.")
 
+@tool(args_schema=WeatherInput)
 def get_weather(fecha: str) -> str:
     """
-    Función externa que devuelve la predicción del tiempo en Tenerife con gestión de errores básica.
+    Consulta la predicción meteorológica en Tenerife para una fecha específica en formato YYYY-MM-DD.
+    Utiliza esta herramienta cuando el usuario pregunte por el tiempo, clima o condiciones atmosféricas en una fecha concreta.
     """
     logging.info(f"Intento de llamada a get_weather con fecha: {fecha}")
     try:
@@ -22,6 +25,7 @@ def get_weather(fecha: str) -> str:
         
         # Simulación basada en los microclimas de la guía de Tenerife
         weather_data = {
+            "fecha_consultada": fecha,
             "estado": "Soleado con nubes dispersas en la costa norte",
             "temperatura_media": "24°C",
             "probabilidad_lluvia": "10%",

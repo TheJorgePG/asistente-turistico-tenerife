@@ -107,7 +107,19 @@
                     body: JSON.stringify({ message: texto })
                 });
                 const data = await response.json();
-                dialogue.innerHTML += `<br><br><b>Sabio:</b> ${data.reply}`;
+                
+                // BLINDAJE TOTAL: Comprobamos qué tipo de dato es data.reply antes de pintarlo
+                let respuestaFinal = "";
+                if (typeof data.reply === 'string') {
+                    respuestaFinal = data.reply;
+                } else if (typeof data.reply === 'object' && data.reply !== null) {
+                    // Si por lo que sea el backend devuelve un objeto JSON, lo pasamos a texto o cogemos su contenido
+                    respuestaFinal = data.reply.content || JSON.stringify(data.reply);
+                } else {
+                    respuestaFinal = String(data.reply);
+                }
+
+                dialogue.innerHTML += `<br><br><b>Sabio:</b> ${respuestaFinal}`;
                 dialogue.scrollTop = dialogue.scrollHeight;
             } catch (err) {
                 dialogue.innerHTML += `<br><br>⚠️ Error de conexión con el reino espiritual.`;
